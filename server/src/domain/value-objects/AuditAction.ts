@@ -1,0 +1,1 @@
+export type AuditAction = "BLOCK_USER" | "UNBLOCK_USER";

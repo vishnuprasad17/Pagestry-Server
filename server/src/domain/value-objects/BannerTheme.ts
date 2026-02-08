@@ -1,0 +1,1 @@
+export type BannerTheme = "primary" | "secondary" | "classic";
