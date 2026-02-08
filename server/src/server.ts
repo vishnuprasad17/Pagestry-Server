@@ -17,7 +17,7 @@ const PORT = process.env.PORT;
     await initializeDatabase();
 
     server.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}/`)
+      console.log(`Server running on https://pagestry-server.onrender.com/`)
     })
   } catch (error) {
     console.error('Unexpected error during startup:', error);
