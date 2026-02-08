@@ -1,8 +1,6 @@
 import express from 'express';
 import cookieparser from 'cookie-parser';
 import cors from 'cors';
-import { fileURLToPath } from "url";
-import path from 'path';
 import routes from './interface-adapters/routes/routes.js';
 import { globalErrorHandler } from './interface-adapters/middlewares/error.middleware.js';
 
