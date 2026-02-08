@@ -6,9 +6,6 @@ import path from 'path';
 import routes from './interface-adapters/routes/routes.js';
 import { globalErrorHandler } from './interface-adapters/middlewares/error.middleware.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 export const app = express();
 
 // middleware
@@ -16,9 +13,11 @@ app.use(express.json());
 app.use(cookieparser());
 
 app.use(cors({
-    origin: ['http://localhost:5173'],
-    credentials: true
-}))
+    origin: ['https://pagestryonline.vercel.app/', 'http://localhost:5173'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use('/api', routes);
 
