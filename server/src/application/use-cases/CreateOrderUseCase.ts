@@ -1,4 +1,5 @@
 import { Order } from "../../domain/entities/Order.js";
+import { OrderNotFoundError } from "../../domain/errors/OrderErrors.js";
 import { OrderItem } from "../../domain/value-objects/OrderItem.js";
 import { PaymentDetails } from "../../domain/value-objects/PaymentDetails.js";
 import { CreateOrderDto, CreateOrderResult } from "../dto/OrderDto.js";
@@ -110,7 +111,7 @@ export class CreateOrderUseCase {
       );
 
       // 6. Create order
-      const order = new Order(
+      const newOrder = new Order(
         '',
         orderId,
         dto.userId,
@@ -134,12 +135,18 @@ export class CreateOrderUseCase {
           await bookRepo.reduceStock(item.bookId, item.quantity);
         }
         
-        order.updateStatus("PLACED");
+        newOrder.updateStatus("PLACED");
         const cartRepo = this.unitOfWork.getCartRepository();
         await cartRepo.clearCart(dto.userId);
       }
 
-      await orderRepo.save(order);
+      await orderRepo.save(newOrder);
+      const order = await orderRepo.findByOrderId(orderId);
+
+      if (!order) {
+        throw new OrderNotFoundError(orderId);
+      }
+      
       await this.unitOfWork.commit();
 
       return {
